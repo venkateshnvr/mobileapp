@@ -23,15 +23,23 @@ import {
 import { WebBrowser } from 'expo';
 import { MonoText3} from '../components/StyledText';
 
-import Splash from './Splash';
-import Video from './Video';
 
 
 
-const name1= "Muesuem Info";
-const sub1 ="Details about exhibits"
-const name2="About Us"
-const sub2="Details about exhibits"
+
+
+const name1 = "Muesuem Exhibits";
+const sub1 = "A quick tour around the museum"
+const name2 = "Guided Tour"
+const sub2 = "Guided tour based timeline"
+const name3 = "Show Timings"
+const sub3 = "List of non-guided show times"
+const name4 = "Visit Robseum"
+const sub4 = "A map for round trip"
+const name5 = "About Us"
+const sub5 = "know about us"
+const name6 = "Help"
+const sub6 = "contacts and FAQs"
 
 export default class HomeScreen extends React.Component {
   static navigationOptions={
@@ -39,11 +47,25 @@ export default class HomeScreen extends React.Component {
     
   }
 	_onPressButton() {
-    Alert.alert('You tapped the button!')
+    Alert.alert('Okay!')
   }
   _onVideoButton(){
-    Alert.alert("Video Zone")
-    
+    Alert.alert("Video Zone!") 
+  }
+  _onTourButton(){
+    Alert.alert('Tour has been started!')
+  }
+  _onShowButton(){
+    Alert.alert('See the Show timings!')
+  }
+  _onVisitButton(){
+    Alert.alert('Welcome to the Roboseum!')
+  }
+  _onAboutButton(){
+    Alert.alert('Get to know about!')
+  }
+  _onHelpButton(){
+    Alert.alert('Important contacts and FAQs!')
   }
 
 	render() {
@@ -70,8 +92,8 @@ export default class HomeScreen extends React.Component {
 					<View style={styles.container}>
               
                 <ListItem style={style.customBtnText}
-                  
-                  onPress={() => this.props.navigation.navigate('Video')}
+                  onPress={this._onPressButton}
+                  onPress={() => this.props.navigation.navigate('Exhibits')}
                   
                   title={name1}
                   
@@ -82,67 +104,74 @@ export default class HomeScreen extends React.Component {
 
                 <ListItem style={style.customBtnText}
                   onPress={this._onPressButton}
+                  onPress={() => this.props.navigation.navigate('Tour')}
                   
-                  title={name1}
+                  title={name2}
                   
-                  subtitle={sub1}
+                  subtitle={sub2}
                   
                 />
 
                 <ListItem style={style.customBtnText}
                   onPress={this._onPressButton}
+                  onPress={() => this.props.navigation.navigate('Show')}
                   
-                  title={name2}
+                  title={name3}
                   
-                  subtitle={sub1}
-                  
-                />
-
-                <ListItem style={style.customBtnText}
-                  onPress={this._onPressButton}
-                  
-                  title={name2}
-                  
-                  subtitle={sub1}
+                  subtitle={sub3}
                   
                 />
 
                 <ListItem style={style.customBtnText}
                   onPress={this._onPressButton}
+                  onPress={() => this.props.navigation.navigate('Visit')}
                   
-                  title={name2}
+                  title={name4}
                   
-                  subtitle={sub1}
+                  subtitle={sub4}
+                  
+                />
 
-                />  
+                <ListItem style={style.customBtnText}
+                  onPress={this._onPressButton}
+                  onPress={() => this.props.navigation.navigate('About')}
+                  
+                  title={name5}
+                  
+                  subtitle={sub5}
+
+                />
+
+                <ListItem style={style.customBtnText}
+                  onPress={this._onPressButton}
+                  onPress={() => this.props.navigation.navigate('Help')}
+                  
+                  title={name6}
+                  
+                  subtitle={sub6}
+                  
+                />
+
         	</View>
 							
 					<View style={{marginHorizontal:40,paddingHorizontal:10,paddingTop:10,marginVertical:10}}backgroundColor="##0be881">
           <Button
-              
-              
+                           
             	onPress={this._onPressButton}
             	title="FeedBack"
           />
+
         	</View>
 					
-
-
 			</ScrollView>
       
 		</View>
-
-    
+   
     );
-  }
-
-  
+  } 
 }
 
 AppRegistry.registerComponent('HomeScreen',()=> HomeScreen)
-
-
-
 
 
 const styles = StyleSheet.create({
