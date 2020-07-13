@@ -7,7 +7,7 @@ import {
          Image
 } from 'react-native';
  import { StackNavigator } from 'react-navigation';
- import {HomeScreen} from './HomeScreen';
+ 
     
 export default class Splash extends Component{
     
