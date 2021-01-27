@@ -1,15 +1,21 @@
 {
   "expo": {
-    "name": "AwesomeProject",
-    "slug": "AwesomeProject",
+    "name": "Museum",
+    "slug": "Museum",
     "privacy": "public",
+    "description": "Gujarat Science City",
+    "primaryColor": "#ea9a06",
+    "androidStatusBarColor": "#ea9a06",
+    "androidStatusBar": {
+      "backgroundColor": "#ea9a06"
+    },
     "platforms": [
       "ios",
       "android"
     ],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/logo.png",
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain"
@@ -21,7 +27,14 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.Museum.Museum"
+    },
+    "android": {
+      "package": "com.Museum.Museumapp"
+    },
+    "androidNavigationBar": {
+      "backgroundColor": "#ea9a06"
     }
   }
 }

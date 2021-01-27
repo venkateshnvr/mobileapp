@@ -7,6 +7,7 @@ import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import ScanScreen from '../screens/ScanScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import Qrcode from '../qrcode/qrcode';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -41,7 +42,7 @@ LinksStack.navigationOptions = {
 };
 
 const ScanStack = createStackNavigator({
-  Scan: ScanScreen,
+  Scan: Qrcode,
 });
 
 ScanStack.navigationOptions = {

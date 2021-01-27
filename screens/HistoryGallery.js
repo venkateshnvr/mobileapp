@@ -1,64 +1,57 @@
-'use strict';
-import React, { Component } from 'react';
-import { ListItem } from 'react-native-elements';
-import { Constants } from 'expo';
+"use strict";
+import React, { Component } from "react";
+import { ListItem } from "react-native-elements";
+import { Constants } from "expo";
 import { Col, Row, Grid } from "react-native-easy-grid";
-import {createStackNavigator} from 'react-navigation';
-import YouTube from 'react-native-youtube'
+import { createStackNavigator } from "react-navigation";
+import YouTube from "react-native-youtube";
 import {
-    Dimensions,
-	  Alert,
-	  AppRegistry, 
-	  Button,
-    Image,
-    Platform,
-    ScrollView,
-    StyleSheet,
-    FlatList,
-    Text,
-    TouchableOpacity,
-    View,
-    Linking,
-	  TouchableHighlight,
-	  TouchableNativeFeedback,
-	  TouchableWithoutFeedback
-} from 'react-native';
-import { StackNavigator } from 'react-navigation';
-import Splash from './Splash';
+  Dimensions,
+  Alert,
+  AppRegistry,
+  Button,
+  Image,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  FlatList,
+  Text,
+  TouchableOpacity,
+  View,
+  Linking,
+  TouchableHighlight,
+  TouchableNativeFeedback,
+  TouchableWithoutFeedback
+} from "react-native";
+import { StackNavigator } from "react-navigation";
+import Splash from "./Splash";
 
+const DeviceWidth = Dimensions.get("window").width;
 
-const DeviceWidth = Dimensions.get('window').width
+export default class HistoryGallery extends Component {
+  static navigationOptions = {
+    header: null
+  };
+  render() {
+    return (
+      //  <QRCodeScanner
+      //   onRead={this.onSuccess}
+      //   flashMode={QRCodeScanner.Constants.FlashMode.torch}
+      //   topContent={
+      //     <Text style={styles.centerText}>
+      //       Go to <Text style={styles.textBold}>wikipedia.org/wiki/QR_Code</Text>
+      //     </Text>
+      //   }
+      //   bottomContent={
+      //     <TouchableOpacity style={styles.buttonTouchable}>
+      //       <Text style={styles.buttonText}>OK. Got it!</Text>
+      //     </TouchableOpacity>
+      //   }
+      // />
 
-export default class HistoryGallery extends Component{
-  static navigationOptions={
-    header: null,
-    
-  }
-    render() {
-      
-        return(
-          
-        //  <QRCodeScanner
-        //   onRead={this.onSuccess}
-        //   flashMode={QRCodeScanner.Constants.FlashMode.torch}
-        //   topContent={
-        //     <Text style={styles.centerText}>
-        //       Go to <Text style={styles.textBold}>wikipedia.org/wiki/QR_Code</Text>
-        //     </Text>
-        //   }
-        //   bottomContent={
-        //     <TouchableOpacity style={styles.buttonTouchable}>
-        //       <Text style={styles.buttonText}>OK. Got it!</Text>
-        //     </TouchableOpacity>
-        //   }
-        // />
-   
-        <ScrollView style={styles.container}>
-            
-          <View style={styles.containers}>
-            
-            
-              <TouchableOpacity onPress={() => this.props.navigation.navigate('RoboDetails', {name:'Leonardo'})}>
+      <ScrollView style={styles.container}>
+        <View style={styles.containers}>
+          {/* <TouchableOpacity onPress={() => this.props.navigation.navigate('RoboDetails', {name:'Leonardo'})}>
               <View style={styles.box}>
                   
                 <Image  source={
@@ -73,11 +66,13 @@ export default class HistoryGallery extends Component{
 
               <TouchableOpacity onPress={() => this.props.navigation.navigate('RoboDetails', {name:'Clockwork'})}>
               <View style={styles.box}>
-                <Image  source={
+                <Image  
+                  source={
                   __DEV__
                    ? require('../assets/images/HistoryGallery/Clockwork.jpg')
                    : require('../assets/images/robot-prod.png')
-               }style={styles.box}/>
+               }
+               style={styles.box}/>
                <Text style={styles.text}>Clockwork Prayer</Text>
                </View> 
               </TouchableOpacity>
@@ -308,88 +303,70 @@ export default class HistoryGallery extends Component{
                }style={styles.box}/>
                <Text style={styles.text}>Sojourner Rover</Text>
                </View> 
-              </TouchableOpacity>
-            
-
-
-           
-
-
-
-
-
-          </View>
-        </ScrollView>
-   
+              </TouchableOpacity> */}
+        </View>
+      </ScrollView>
     );
-        
   }
 }
 
 const styles = StyleSheet.create({
+  // centerText: {
+  //   flex: 1,
+  //   fontSize: 18,
+  //   padding: 32,
+  //   color: '#777',
+  // },
 
-    // centerText: {
-    //   flex: 1,
-    //   fontSize: 18,
-    //   padding: 32,
-    //   color: '#777',
-    // },
+  // textBold: {
+  //   fontWeight: '500',
+  //   color: '#000',
+  // },
 
-    // textBold: {
-    //   fontWeight: '500',
-    //   color: '#000',
-    // },
+  // buttonText: {
+  //   fontSize: 21,
+  //   color: 'rgb(0,122,255)',
+  // },
 
-    // buttonText: {
-    //   fontSize: 21,
-    //   color: 'rgb(0,122,255)',
-    // },
+  // buttonTouchable: {
+  //   padding: 16,
+  // },
 
-    // buttonTouchable: {
-    //   padding: 16,
-    // },
+  container: {
+    flex: 1,
+    backgroundColor: "#FFF"
+  },
 
-    container: {
-      flex: 1,
-      backgroundColor: '#FFF',
-    },
+  containers: {
+    flex: 1,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    //padding:2,
+    paddingTop: 5
+  },
 
-    containers:{
-      flex: 1,
-      flexDirection:"row",
-      flexWrap:"wrap",
-      //padding:2,
-      paddingTop:5      
-    },
+  box: {
+    //margin:2,
+    marginHorizontal: 2,
+    marginVertical: 2,
+    height: 200,
+    width: Dimensions.get("window").width / 2 - 4,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#d2dae2"
+  },
 
-    box: {
-      //margin:2,
-      marginHorizontal:2,
-      marginVertical:2,
-      height:200,
-      width:Dimensions.get('window').width/2 -4,
-      justifyContent:"center",
-      alignItems:"center",
-      backgroundColor:"#d2dae2"
-    },
+  text: {
+    position: "absolute",
+    fontWeight: "bold",
+    color: "white",
+    fontSize: 15,
+    backgroundColor: "rgba(0,0,0,0.5)",
+    padding: "1%",
+    bottom: 0,
+    width: "100%",
+    textAlign: "center"
+  }
+});
 
-    text: {
-        position: 'absolute',
-        fontWeight: 'bold',
-        color: 'white',
-        fontSize: 15,
-        backgroundColor: 'rgba(0,0,0,0.5)',
-        padding: '1%',
-        bottom: 0,
-        width: '100%',
-        textAlign: 'center'
-        
-        
-        
-    }
-
-  });
-  
-  
-  
-AppRegistry.registerComponent('HistoryGallery',()=> HistoryGallery)
+AppRegistry.registerComponent("HistoryGallery", () => HistoryGallery);

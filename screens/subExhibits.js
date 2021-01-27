@@ -1,182 +1,122 @@
-'use strict';
-import React, { Component } from 'react';
-import { ListItem } from 'react-native-elements';
-import { Constants } from 'expo';
+"use strict";
+import React, { Component } from "react";
+import { ListItem } from "react-native-elements";
+import { Constants } from "expo";
 import { Col, Row, Grid } from "react-native-easy-grid";
-import {createStackNavigator} from 'react-navigation';
-import YouTube from 'react-native-youtube'
+import { createStackNavigator } from "react-navigation";
+import YouTube from "react-native-youtube";
 import {
-    Dimensions,
-	  Alert,
-	  AppRegistry, 
-	  Button,
-    Image,
-    Platform,
-    ScrollView,
-    StyleSheet,
-    FlatList,
-    Text,
-    TouchableOpacity,
-    View,
-    Linking,
-	  TouchableHighlight,
-	  TouchableNativeFeedback,
-	  TouchableWithoutFeedback
-} from 'react-native';
-import { StackNavigator } from 'react-navigation';
-import Splash from './Splash';
-import Master from './contents/Master.json';
-import icons from '../assets/images/images'
+  Dimensions,
+  Alert,
+  AppRegistry,
+  Button,
+  Image,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  FlatList,
+  Text,
+  TouchableOpacity,
+  View,
+  Linking,
+  TouchableHighlight,
+  TouchableNativeFeedback,
+  TouchableWithoutFeedback
+} from "react-native";
+import { StackNavigator } from "react-navigation";
+import Splash from "./Splash";
+// import Master from "./contents/Master.json";
+import icons from "../assets/images/images";
 
+const DeviceWidth = Dimensions.get("window").width;
 
-
-
-const DeviceWidth = Dimensions.get('window').width
-
-
-
-
-export default class subExhibits extends Component{
-  static navigationOptions={
-    header: null,
+export default class subExhibits extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      exhibit: []
     }
-
-//fetch the exhibit identifier
-   exhibitId = this.props.navigation.getParam('exhibitId', 'NO-id');
-
-//fetch the sub exhibits of the clicked exhibit
-    initialArr = Master.exhibits[this.exhibitId].subExhibits
-
-    
-//construct the subexhibit tiles
-    renderTiles() {
-
-      
-      
-      return this.initialArr.map((subExhibit) => {
-        
-          return (
-            
-            <TouchableOpacity key={subExhibit.id} onPress={() => this.props.navigation.navigate('Description',{exhibitId:this.exhibitId, subExhibitId:subExhibit.id})}>
-            <View style={styles.box}>
-              
-              <Image  source={icons[subExhibit.icon]} style={styles.box}/>
-
-              {/* <Image  source={{uri: `http://192.168.0.104:3000/static/img/${subExhibit.icon}` }} style={styles.box}/> */}
-
-              <Text style={styles.text}>{subExhibit.title}</Text>
-             </View> 
-            </TouchableOpacity>
-          );
-      });
   }
 
+  static navigationOptions = {
+    header: null
+  };
 
-    render() {
+  componentDidMount() {
+    let robotGallery = this.props.navigation.getParam("exhibitGallery");
+    console.log('robotGallery', robotGallery)
+    fetch(`http://10.10.3.94:8001/robots/exhibits/${robotGallery}`)
+    .then(res => res.json())
+    .then(res => {
+      console.log(res)
+      this.setState({
+        exhibit: res
+      })
+    })
+  }
 
-        
-     
-       
-        return(
+  renderTiles() {
+    console.log(this.state.exhibit)
+    return this.state.exhibit.map(subExhibit => {
+      return (
+        <TouchableOpacity
+          key={subExhibit._id}
+          onPress={() =>
+            this.props.navigation.navigate("Description", {
+              subExhibitId: subExhibit.robotName
+            })
+          }
+        >
+          <View style={styles.box}>
+            <Image source={{uri: subExhibit.image}} style={styles.box} />
+            <Text style={styles.text}>{subExhibit.robotName}</Text>
+          </View>
+        </TouchableOpacity>
+      );
+    });
+  }
 
-          
-   
-        <ScrollView style={styles.containers}>
-            
-          
-
-
-           {/* <Text>{this.exhibitId}</Text>    */}
-
-
-          <View style={styles.container}>
-            {
-                this.renderTiles()
-            }
-        </View>
-
-
-        
-        </ScrollView>
-   
+  render() {
+    return (
+      <ScrollView style={styles.containers}>
+        <View style={styles.container}>{this.renderTiles()}</View>
+      </ScrollView>
     );
-        
   }
 }
 
 const styles = StyleSheet.create({
+  containers: {
+    marginTop: 30
+  },
 
-    // centerText: {
-    //   flex: 1,
-    //   fontSize: 18,
-    //   padding: 32,
-    //   color: '#777',
-    // },
+  container: {
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap"
+  },
 
-    // textBold: {
-    //   fontWeight: '500',
-    //   color: '#000',
-    // },
+  box: {
+    //margin:2,
+    marginHorizontal: 1,
+    marginVertical: 1,
+    height: 200,
+    width: Dimensions.get("window").width / 2 - 2,
+    justifyContent: "center",
+    alignItems: "center"
+  },
 
-    // buttonText: {
-    //   fontSize: 21,
-    //   color: 'rgb(0,122,255)',
-    // },
-
-    // buttonTouchable: {
-    //   padding: 16,
-    // },
-
-    // container: {
-    //   flex: 1,
-      
-    //   backgroundColor: '#FFF',
-    // },
-
-    containers:{
-      // flex: 1,
-      // flexDirection:"row",
-      // flexWrap:"wrap",
-      //padding:2,
-     
-          
-    },
-
-    container: {
-      display: 'flex',
-      flexDirection: 'row',
-      flexWrap:"wrap",
-    },
-
-    box: {
-      //margin:2,
-      marginHorizontal:1,
-      marginVertical:1,
-      height:200,
-      width:Dimensions.get('window').width/2 -2,
-      justifyContent:"center",
-      alignItems:"center",
-      
-      
-    },
-
-    text: {
-      position: 'absolute',
-      fontWeight: 'bold',
-      color: 'white',
-      fontSize: 15,
-      backgroundColor: 'rgba(0,0,0,0.5)',
-      padding: '1%',
-      bottom: 0,
-      width: '100%',
-      textAlign: 'center'
-      
-      
-      
+  text: {
+    position: "absolute",
+    fontWeight: "bold",
+    color: "white",
+    fontSize: 15,
+    backgroundColor: "rgba(0,0,0,0.5)",
+    padding: "1%",
+    bottom: 0,
+    width: "100%",
+    textAlign: "center"
   }
+});
 
-  });
-  
-  
-  
-AppRegistry.registerComponent('subExhibits',()=> subExhibits)
+AppRegistry.registerComponent("subExhibits", () => subExhibits);

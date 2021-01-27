@@ -1,45 +1,63 @@
-import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, Button } from 'react-native';
-import { BarCodeScanner } from 'expo-barcode-scanner';
+import React from "react";
+import { StyleSheet, Text, View, AppRegistry } from "react-native";
+import { BarCodeScanner } from "expo-barcode-scanner";
+import { Images } from "./QrcodeData";
 
-export default function App() {
-  const [hasPermission, setHasPermission] = useState(null);
-  const [scanned, setScanned] = useState(false);
+export default class ScanScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      hasCameraPermission: null,
+      barcodeData: ""
+    };
+  }
 
-  useEffect(() => {
-    (async () => {
-      const { status } = await BarCodeScanner.requestPermissionsAsync();
-      setHasPermission(status === 'granted');
-    })();
-  }, []);
+  async componentDidMount() {
+    const { status } = await BarCodeScanner.requestPermissionsAsync();
+    this.setState({ hasCameraPermission: status === "granted" });
+  }
 
-  const handleBarCodeScanned = ({ type, data }) => {
-    setScanned(true);
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+  handleBarCodeScanned = async ({ type, data }) => {
+    let qrcodeData = JSON.parse(data);
+    qrcodeData.map(robotName => {
+      this.props.navigation.navigate('QrcodeData', {
+        data: robotName.robotName
+      })
+    });
   };
 
-  if (hasPermission === null) {
-    return <Text>Requesting for camera permission</Text>;
+  render() {
+    const { hasCameraPermission, barcodeData } = this.state;
+    if (hasCameraPermission === null) {
+      return <Text>Requesting for camera permission</Text>;
+    }
+    if (hasCameraPermission === false) {
+      return <Text>No access to camera</Text>;
+    }
+    // if (barcodeData !== "") {
+    //   // return <Images barcodeData={barcodeData} />;
+    //   return this.props.navigation.navigate('QrcodeData', {
+    //     data: this.state.barcodeData
+    //   })
+    // }
+    return (
+      <View style={styles.container}>
+        <BarCodeScanner
+          onBarCodeScanned={
+            this.state.handleBarCodeScanned ? null : this.handleBarCodeScanned
+          }
+          style={StyleSheet.absoluteFill}
+        />
+      </View>
+    );
   }
-  if (hasPermission === false) {
-    return <Text>No access to camera</Text>;
-  }
-
-  return (
-    <View
-      style={{
-        flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'flex-end',
-      }}>
-      <BarCodeScanner
-        onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-        style={StyleSheet.absoluteFillObject}
-      />
-
-      {scanned && (
-        <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />
-      )}
-    </View>
-  );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff"
+  }
+});
+
+AppRegistry.registerComponent("ScanScreen", () => ScanScreen);
