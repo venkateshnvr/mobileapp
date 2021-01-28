@@ -62,8 +62,8 @@ export default class QrcodeData extends React.Component {
 
   async componentDidMount() {
     let data = this.props.navigation.getParam("data");
-    console.log("data", data);
-    await fetch(`http://10.10.3.94:8001/robots/robot/${data}`)
+    const endpoint = __DEV__ ? 'http://10.10.3.94:8001' : 'https://museumserver.herokuapp.com';
+    await fetch(`${endpoint}/robots/robot/${data}`)
       .then(res => {
         return res.json();
       })

@@ -34,20 +34,20 @@ const mongoose = require('mongoose');
 
 // const upload = multer({ storage });upload.single("file"),
 
-route.post('/gallerys',  async (req, res) => {
+route.post('/gallerys',  (req, res) => {
     let roboExhibitObject = {}
     roboExhibitObject.robotGalleryName = req.body.robotGalleryName;
     roboExhibitObject.image = req.body.image;
     let robotExhibitsModel = new robotExhibitModel(roboExhibitObject)
-    await robotExhibitsModel.save();
+    robotExhibitsModel.save();
     res.json(robotExhibitsModel)
     res.status(200)
 })
 
-route.post('/gallerys',  async (req, res) => {
+route.post('/gallerys',  (req, res) => {
     let roboExhibitObject = {}
     let robotExhibitsModel = new robotExhibitModel(roboExhibitObject)
-    await robotExhibitsModel.save();
+    robotExhibitsModel.save();
     res.json(roboExhibitObject)
     res.status(200)
 })

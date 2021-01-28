@@ -11,14 +11,14 @@ const route = express.Router();
 //     res.send("sucess");
 // })
 
-route.post('/post', async (req, res) => {
+route.post('/post', (req, res) => {
     console.log(req.body)
     const { robotName, gallery } = req.body
     let roboDetailObject = {}
     roboDetailObject.robotName = robotName;
     roboDetailObject.gallery = gallery;
     let roboDetailsModel = new roboDetailModel(roboDetailObject)
-    await roboDetailsModel.save(); 
+    roboDetailsModel.save(); 
     res.json(roboDetailObject)
 })
 

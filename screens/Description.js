@@ -25,7 +25,8 @@ export default class Description extends Component {
 
   componentDidMount() {
     let robotName = this.props.navigation.getParam("subExhibitId");
-    fetch(`http://10.10.3.94:8001/robots/robot/${robotName}`)
+    const endpoint = __DEV__ ? 'http://10.10.3.94:8001' : 'https://museumserver.herokuapp.com';
+    fetch(`${endpoint}/robots/robot/${robotName}`)
       .then(res => res.json())
       .then(res => {
         this.setState({

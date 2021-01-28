@@ -26,7 +26,6 @@ import {
 import { StackNavigator } from "react-navigation";
 import Splash from "./Splash";
 // import Master from "./contents/Master.json";
-import icons from "../assets/images/images";
 
 const DeviceWidth = Dimensions.get("window").width;
 
@@ -44,7 +43,8 @@ export default class Exhibits extends Component {
   //fetch exhibits list
   // initialArr = Master.exhibits;
   componentDidMount() {
-    fetch("http://10.10.3.94:8001/exhibits/gallerys")
+    const endpoint = __DEV__ ? 'http://10.10.3.94:8001' : 'https://museumserver.herokuapp.com';
+    fetch(`${endpoint}/exhibits/gallerys`)
       .then(res => res.json())
       .then(res => {
         this.setState({

@@ -26,7 +26,6 @@ import {
 import { StackNavigator } from "react-navigation";
 import Splash from "./Splash";
 // import Master from "./contents/Master.json";
-import icons from "../assets/images/images";
 
 const DeviceWidth = Dimensions.get("window").width;
 
@@ -44,8 +43,8 @@ export default class subExhibits extends Component {
 
   componentDidMount() {
     let robotGallery = this.props.navigation.getParam("exhibitGallery");
-    console.log('robotGallery', robotGallery)
-    fetch(`http://10.10.3.94:8001/robots/exhibits/${robotGallery}`)
+    const endpoint = __DEV__ ? 'http://10.10.3.94:8001' : 'https://museumserver.herokuapp.com';
+    fetch(`${endpoint}/robots/exhibits/${robotGallery}`)
     .then(res => res.json())
     .then(res => {
       console.log(res)

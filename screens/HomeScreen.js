@@ -23,7 +23,7 @@ import {
 import { WebBrowser } from "expo";
 import { MonoText3 } from "../components/StyledText";
 
-const name1 = "Musuem Exhibits";
+const name1 = "Museum Exhibits";
 const sub1 = "A quick tour around the museum";
 const name2 = "Guided Tour";
 const sub2 = "Guided tour based timeline";

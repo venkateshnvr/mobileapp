@@ -3,7 +3,7 @@ const robotImageModel = require('../Db/model.db.image');
 const route = express.Router();
 
 
-route.post('/robot', async (req, res) => {
+route.post('/robot', (req, res) => {
     console.log("req", req.body.robotName)
     let roboImageObject = {}
     roboImageObject.robotName = req.body.robotName;
@@ -13,17 +13,25 @@ route.post('/robot', async (req, res) => {
     roboImageObject.hindi =  req.body.hindi;
     roboImageObject.gallery = req.body.gallery;
     let roboImagesModel = new robotImageModel(roboImageObject)
-    await roboImagesModel.save(); 
+    roboImagesModel.save(); 
     res.json(roboImageObject)
     res.status(200)
 })
 
-route.get('/robot', (req, res) => {
-    robotImageModel.find({})
-    .then(data => {
-        console.log('data', data)
+route.get('/robot', async (req, res) => {
+    try {
+        const data = await robotImageModel.find({});
         res.json(data)
-    })
+    } catch(e) {
+        console.log('Catch an error: ', e)
+    }
+    // .then(data => {
+    //     console.log('data', data)
+    //     res.json(data)
+    // })
+    // .catch(err => {
+    //     console.log('err', err)
+    // })
 })
 
 route.get('/robot/:robotname', (req, res) => {

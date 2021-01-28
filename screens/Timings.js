@@ -40,7 +40,8 @@ class Timings extends Component {
       "Saturday"
     ];
     let day = daylist[date.getDay()];
-    fetch(`http://10.10.3.94:8001/tabels/tabel/${setdate}`)
+    const endpoint = __DEV__ ? 'http://10.10.3.94:8001' : 'https://museumserver.herokuapp.com';
+    fetch(`${endpoint}/tabels/tabel/${setdate}`)
       .then(res => res.json())
       .then(data => {
         // createing tabel data

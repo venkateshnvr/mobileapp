@@ -2,7 +2,7 @@ const express = require("express");
 const robotTabelModel = require("../Db/model.db.table");
 const route = express.Router();
 
-route.post("/tabel", async (req, res) => {
+route.post("/tabel", (req, res) => {
   let date = new Date();
   let setdate =
     date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
@@ -16,12 +16,12 @@ route.post("/tabel", async (req, res) => {
     };
   });
   let roboTableModel = new robotTabelModel(roboTabelObject);
-  await roboTableModel.save();
+  roboTableModel.save();
   res.json(roboTableModel);
   res.status(200);
 });
 
-route.get("/tabel/:date", async (req, res) => {
+route.get("/tabel/:date", (req, res) => {
   robotTabelModel.find({ date: req.params.date }).then(data => {
     res.json(data);
   });
