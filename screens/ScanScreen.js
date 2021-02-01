@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View, AppRegistry } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
-import { Images } from "./QrcodeData";
+import Constants from "expo-constants";
 
 export default class ScanScreen extends React.Component {
   constructor(props) {
@@ -11,6 +11,10 @@ export default class ScanScreen extends React.Component {
       barcodeData: ""
     };
   }
+
+  static navigationOptions = {
+    header: null
+  };
 
   async componentDidMount() {
     const { status } = await BarCodeScanner.requestPermissionsAsync();
@@ -56,7 +60,8 @@ export default class ScanScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff"
+    backgroundColor: "black",
+    paddingTop: Constants.statusBarHeight,
   }
 });
 

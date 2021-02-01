@@ -1,19 +1,17 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, AppRegistry, StatusBar } from "react-native";
+import { Table, Row, Rows } from "react-native-table-component";
+import Constants from "expo-constants";
+import { ipConfig } from "../ipconfig"; // server connection local and production
+import DatePicker from "react-native-datepicker";
 import {
-  Table,
-  TableWrapper,
-  Row,
-  Rows,
-  Col,
-  Cols,
-  Cell
-} from "react-native-table-component";
-import Calendar from 'react-native-calendar-datepicker';
-import Moment from 'moment';
-// import { getConsoleOutput } from "@jest/console";
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp
+} from "react-native-responsive-screen";
+import { black } from "ansi-colors";
+// import DateTimePicker from '@react-native-community/datetimepicker';
 
-class Timings extends Component {
+export default class Timings extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -21,12 +19,58 @@ class Timings extends Component {
       DataTable: [],
       Date: "",
       day: "",
-      date: ""
+      maxDate: "",
+      minDate: "",
+      allDates: []
     };
   }
 
+  static navigationOptions = {
+    header: null
+  };
+
+  selectedDate(date) {
+    // let setdate =
+    //   date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+    let daylist = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday ",
+      "Thursday",
+      "Friday",
+      "Saturday"
+    ];
+    let day = daylist[date.getDay()];
+    this.state.allDates.map(data => {
+      if (data.date === date) {
+        let list = [];
+        for (let i = 0; i < data.table.length; i++) {
+          // array inside create inside new array example: [[1,2,2],[123,45]]
+          let nextList = [];
+          for (let dataObject in data.table[i]) {
+            nextList.push(data.table[i][dataObject]);
+          }
+          list.push(nextList);
+        }
+        console.log("list",list)
+        // id == index add 1, 2, 3
+        for (let i = 0; i < list.length; i++) {
+          list[i][0] = i + 1;
+        }
+
+        this.setState({
+          HeadTable: ["S.no", "Start", "End", "Availability"],
+          DataTable: list,
+          Date: date,
+          day: day,
+        });
+      }
+    });
+  }
+
   componentDidMount() {
-    // takeing the today date and send date  to the server nodejs
+    // taking the today date and send date  to the server nodejs
     let date = new Date();
     let setdate =
       date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
@@ -40,57 +84,85 @@ class Timings extends Component {
       "Saturday"
     ];
     let day = daylist[date.getDay()];
-    const endpoint = __DEV__ ? 'http://10.10.3.94:8001' : 'https://museumserver.herokuapp.com';
-    fetch(`${endpoint}/tabels/tabel/${setdate}`)
+    fetch(`${ipConfig}/tabels/tabel`)
       .then(res => res.json())
       .then(data => {
-        // createing tabel data
-        let list = [];
-        for (let i = 0; i < data[0].table.length; i++) {
-          // array inside create inside new array example: [[1,2,2],[123,45]]
-          let list1 = [];
-          for (let datai in data[0].table[i]) {
-            list1.push(data[0].table[i][datai]);
+        let SortMaxMin = data.sort((a, b) => {
+          return a.date < b.date;
+        });
+        let dataList = [];
+        data.map(data => {
+          if (data.date === setdate) {
+            dataList.push(data);
           }
-          list.push(list1);
+        });
+        let list = [];
+        for (let i = 0; i < dataList[0].table.length; i++) {
+          // array inside create inside new array example: [[1,2,2],[123,45]]
+          let nextList = [];
+          for (let data in dataList[0].table[i]) {
+            nextList.push(dataList[0].table[i][data]);
+          }
+          list.push(nextList);
         }
 
-        // id === index
+        // id == index add 1, 2, 3
         for (let i = 0; i < list.length; i++) {
           list[i][0] = i + 1;
         }
+
         this.setState({
-          HeadTable: ["S.no", "Start", "End","Availability"],
+          maxDate: SortMaxMin[0].date,
+          minDate: SortMaxMin[SortMaxMin.length - 1].date,
+          HeadTable: ["S.no", "Start", "End", "Availability"],
           DataTable: list,
           Date: setdate,
-          day: day
+          day: day,
+          allDates: data
         });
       });
   }
   render() {
     const state = this.state;
-    console.log(state.date)
+    console.log("123456798", state.allDates);
     return (
       <View style={styles.view}>
-        {this.state.DataTable.length === 0 ? (
-          <Text style={styles.noData}>TODAY IS HOLIDAY</Text>
-        ) : (
+        <View style={styles.container}>
+          {/* {this.state.DataTable.length !== 0 ? ( */}
           <View>
             <View style={styles.viewText}>
               <Text style={styles.text}>Day: {this.state.day}</Text>
               <Text style={styles.text}>Date: {this.state.Date}</Text>
             </View>
-              <Calendar
-                // selected={this.state.date}
-                minDate={'2021-05-10'}
-                maxDate={'2021-05-30'}
-                onDayPress={day => {
-                  console.log('selected day', day);
+
+            <View style={styles.margin}>
+              <DatePicker
+                style={{ width: 200 }}
+                // date={this.state.date}
+                mode="date"
+                placeholder="select date"
+                format="YYYY-M-D"
+                minDate={this.state.minDate}
+                maxDate={this.state.maxDate}
+                confirmBtnText="Confirm"
+                cancelBtnText="Cancel"
+                customStyles={{
+                  dateIcon: {
+                    position: "absolute",
+                    left: 0,
+                    top: 4,
+                    marginLeft: 10
+                  },
+                  dateInput: {
+                    // marginLeft: 36
+                  }
+                  // ... You can check the source to find the other keys.
                 }}
-                onMonthChange={month => {
-                  console.log('month changed', month);
+                onDateChange={date => {
+                  this.selectedDate(date);
                 }}
               />
+            </View>
             <Table borderStyle={{ borderWidth: 1, borderColor: "black" }}>
               <Row
                 data={state.HeadTable}
@@ -100,17 +172,33 @@ class Timings extends Component {
               <Rows data={state.DataTable} textStyle={styles.TableText} />
             </Table>
           </View>
-        )}
+          <Text style={styles.noData}>Avalible data till {this.state.maxDate}</Text>
+          {/* // ) : (
+          //   )} */}
+        </View>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
+  view: {
     flex: 1,
-    padding: 18,
-    paddingTop: 35
+    backgroundColor: "#FFF",
+    paddingTop: Constants.statusBarHeight
+    // marginTop: Platform.OS == "android" ? 130 : 0
+  },
+  container: {
+    // flex: 1,
+    // flexDirection: "row",
+    // flexWrap: "wrap",
+    // paddingTop: 5
+    // paddingTop: Constants.statusBarHeight
+  },
+  margin: {
+    margin: 10,
+    width: "100%",
+    textAlign: "left"
   },
   HeadStyle: {
     height: 50
@@ -122,22 +210,24 @@ const styles = StyleSheet.create({
   },
   view: {
     backgroundColor: "white",
-    flex: 1,
+    flex: 1
   },
   text: {
     fontSize: 20,
     margin: 5
   },
   viewText: {
-    flexDirection: "row"
+    height: hp("10%"),
+    flexDirection: "row",
+    paddingTop: Constants.statusBarHeight,
   },
   noData: {
     textAlign: "center",
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 20,
-    // alignItems: 'center',
     textAlignVertical: "center",
+    paddingTop: Constants.statusBarHeight
   }
 });
 
-export default Timings;
+AppRegistry.registerComponent("Timings", () => Timings);

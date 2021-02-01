@@ -1,31 +1,16 @@
 "use strict";
 import React, { Component } from "react";
-import { ListItem } from "react-native-elements";
-import { Constants } from "expo";
-import { Col, Row, Grid } from "react-native-easy-grid";
-import { createStackNavigator } from "react-navigation";
-import YouTube from "react-native-youtube";
 import {
   Dimensions,
-  Alert,
   AppRegistry,
-  Button,
   Image,
-  Platform,
   ScrollView,
   StyleSheet,
-  FlatList,
   Text,
   TouchableOpacity,
   View,
-  Linking,
-  TouchableHighlight,
-  TouchableNativeFeedback,
-  TouchableWithoutFeedback
 } from "react-native";
-import { StackNavigator } from "react-navigation";
-import Splash from "./Splash";
-// import Master from "./contents/Master.json";
+import { ipConfig } from "../ipconfig"; // server connection local and production
 
 const DeviceWidth = Dimensions.get("window").width;
 
@@ -43,8 +28,7 @@ export default class subExhibits extends Component {
 
   componentDidMount() {
     let robotGallery = this.props.navigation.getParam("exhibitGallery");
-    const endpoint = __DEV__ ? 'http://10.10.3.94:8001' : 'https://museumserver.herokuapp.com';
-    fetch(`${endpoint}/robots/exhibits/${robotGallery}`)
+    fetch(`${ipConfig}/robots/exhibits/${robotGallery}`) // fetch data from server and send parameter gallary name
     .then(res => res.json())
     .then(res => {
       console.log(res)
@@ -62,7 +46,7 @@ export default class subExhibits extends Component {
           key={subExhibit._id}
           onPress={() =>
             this.props.navigation.navigate("Description", {
-              subExhibitId: subExhibit.robotName
+              subExhibitId: subExhibit.robotName // send robot name parameter
             })
           }
         >

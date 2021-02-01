@@ -7,12 +7,20 @@ import {
   TouchableOpacity,
   View,
   Button,
-  TextInput
+  TextInput,
+  AppRegistry
 } from "react-native";
-import AwesomeAlert from 'react-native-awesome-alerts';
-// import  from 'react-native-input-style';
+import Constants from "expo-constants";
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp
+} from "react-native-responsive-screen";
+import { black } from "ansi-colors";
 
-class Help extends Component {
+export default class Help extends Component {
+  static navigationOptions = {
+    header: null
+  };
   constructor(props) {
     super(props);
     this.state = {
@@ -29,7 +37,10 @@ class Help extends Component {
       this.state.message !== "" &&
       this.state.email !== ""
     ) {
-      fetch("http://10.10.3.94:8001/feedback/post", {
+      const endpoint = __DEV__
+        ? "http://10.10.3.94:8001"
+        : "https://museumserver.herokuapp.com";
+      fetch(`${endpoint}/feedback/post`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -57,6 +68,7 @@ class Help extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <Text style={styles.contact}>FEEDBACK</Text>
         <TextInput
           value={this.state.name}
           onChangeText={name => this.setState({ name })}
@@ -104,18 +116,24 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "white",
-    margin: 5,
-    borderRadius: 10
+    paddingTop: Constants.statusBarHeight,
+    // margin: wp('1%')
   },
   input: {
-    width: 340,
+    // flex:1,
+    width: wp("98%"),
     height: 50,
-    padding: 10,
+    padding: 5,
     borderWidth: 1,
+    // borderBottom: 1,
+    // borderEndWidth: 1,
     borderColor: "black",
     borderRadius: 10,
-    margin: 5,
-    fontSize: 18,
+    margin: wp('1%'),
+    // marginHorizontal: 2,
+    marginRight:2,
+    // marginTop: 5,
+    fontSize: 18
   },
   submit: {
     height: 40,
@@ -129,7 +147,7 @@ const styles = StyleSheet.create({
     textAlign: "center"
   },
   message: {
-    width: 340,
+    width: wp("98%"),
     height: 100,
     borderColor: "black",
     borderWidth: 1,
@@ -139,7 +157,8 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     // borderBottomWidth: 1,
     // paddingTop: 1
-    margin: 5,
+    marginTop: 5,
+    margin: wp('1%'),
     textAlignVertical: "top"
   },
   button: {
@@ -148,6 +167,26 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     // marginVertical: 20.
     fontSize: 18
+  },
+  developmentModeText: {
+    marginBottom: 20,
+    color: "rgba(0,0,0,0.4)",
+    fontSize: 14,
+    lineHeight: 19,
+    textAlign: "center"
+  },
+  contact: {
+    height: hp('8%'),
+    fontWeight: "bold",
+    backgroundColor: '#ea9a06',
+    fontSize: 20,
+    textAlign: 'center',
+    // justifyContent: 'center'
+    letterSpacing: 2,
+    // justifyContent: 'center'
+    paddingTop: wp('5%'),
+    color: 'black'
   }
 });
-export default Help;
+
+AppRegistry.registerComponent("Help", () => Help);

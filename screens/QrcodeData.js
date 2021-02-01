@@ -8,9 +8,19 @@ import {
   TouchableOpacity,
   AppRegistry
 } from "react-native";
-import YoutubePlayer from "react-native-youtube-iframe";
+// import YoutubePlayer from "react-native-youtube-iframe";
+import Constants from "expo-constants";
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp
+} from "react-native-responsive-screen";
+import { WebView } from "react-native-webview";
 
 export default class QrcodeData extends React.Component {
+  static navigationOptions = {
+    header: null
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -62,7 +72,9 @@ export default class QrcodeData extends React.Component {
 
   async componentDidMount() {
     let data = this.props.navigation.getParam("data");
-    const endpoint = __DEV__ ? 'http://10.10.3.94:8001' : 'https://museumserver.herokuapp.com';
+    const endpoint = __DEV__
+      ? "http://10.10.3.94:8001"
+      : "https://museumserver.herokuapp.com";
     await fetch(`${endpoint}/robots/robot/${data}`)
       .then(res => {
         return res.json();
@@ -73,7 +85,7 @@ export default class QrcodeData extends React.Component {
           hindi: false,
           english: true,
           image: true,
-          imagesArray: data[0],
+          imagesArray: data[0]
         });
       })
       .catch(err => console.log("err", err));
@@ -98,12 +110,22 @@ export default class QrcodeData extends React.Component {
                 : { display: "none" }
             }
           >
-            <YoutubePlayer
+            {/* <YoutubePlayer
               height={250}
               play={true}
               videoId={`${data.video}`}
               loop={false}
-            />
+            /> */}
+            <View style={{ height: 300 }}>
+              <WebView
+                style={styles.WebViewContainer}
+                javaScriptEnabled={true}
+                domStorageEnabled={true}
+                source={{
+                  uri: `https://www.youtube.com/embed/${data.video}`
+                }}
+              />
+            </View>
           </View>
           <Text style={styles.text_1}>{data.robotName} </Text>
           <View style={{ marginBottom: 20, flex: 1 }}>
@@ -186,14 +208,15 @@ export default class QrcodeData extends React.Component {
 
 const styles = StyleSheet.create({
   image: {
-    width: 350,
-    height: 350,
-    borderRadius: 10
+    width: wp("100%"),
+    height: hp("50%")
+    // borderRadius: 10
   },
   view: {
-    margin: 5,
+    // margin: 5,
     // marginTop: 20,
-    flex: 1
+    flex: 1,
+    paddingTop: Constants.statusBarHeight
   },
   text: {
     fontSize: 18,
@@ -203,7 +226,10 @@ const styles = StyleSheet.create({
   },
   text_1: {
     fontWeight: "bold",
-    fontSize: 20
+    fontSize: 20,
+    height: hp("5%"),
+    backgroundColor: '#ea9a06',
+    textAlign: "center"
   },
   margin: {
     marginBottom: 5,
@@ -216,8 +242,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     right: 0,
     left: 0,
-    backgroundColor: "orange",
-    borderRadius: 10
+    backgroundColor: "#ea9a06"
   },
   video: {
     alignContent: "center",

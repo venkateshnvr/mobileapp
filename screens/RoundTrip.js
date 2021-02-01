@@ -1,16 +1,17 @@
 import React, { Component } from "react";
 import {
   StyleSheet,
-  Text,
   View,
-  Image,
-  ScrollView,
-  TouchableOpacity,
   AppRegistry
 } from "react-native";
 import ImageViewer from "react-native-image-zoom-viewer";
+import Constants from "expo-constants";
 
 export default class RoundTrip extends Component {
+  static navigationOptions = {
+    header: null
+  };
+
   image = [
     {
       props: {
@@ -30,7 +31,7 @@ export default class RoundTrip extends Component {
   ];
   render() {
     return (
-      <View style={{ flex: 1 }}>
+      <View style={styles.welcomeImage}>
         <ImageViewer imageUrls={this.image} />
       </View>
     );
@@ -39,11 +40,13 @@ export default class RoundTrip extends Component {
 
 const styles = StyleSheet.create({
   welcomeImage: {
-    width: 500,
-    height: 500,
-    resizeMode: "contain",
-    marginTop: 3,
-    marginLeft: -10
+    flex: 1,
+    paddingTop: Constants.statusBarHeight,
+    // width: 500,
+    // height: 500,
+    // resizeMode: "contain",
+    // marginTop: 3,
+    // marginLeft: -10
   }
 });
 

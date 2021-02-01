@@ -1,31 +1,17 @@
 "use strict";
 import React, { Component } from "react";
-import { ListItem } from "react-native-elements";
-import { Constants } from "expo";
-import { Col, Row, Grid } from "react-native-easy-grid";
-import { createStackNavigator } from "react-navigation";
-import YouTube from "react-native-youtube";
+// import { Constants } from "expo";
 import {
   Dimensions,
-  Alert,
   AppRegistry,
-  Button,
   Image,
-  Platform,
   ScrollView,
   StyleSheet,
-  FlatList,
   Text,
   TouchableOpacity,
-  View,
-  Linking,
-  TouchableHighlight,
-  TouchableNativeFeedback,
-  TouchableWithoutFeedback
+  View
 } from "react-native";
-import { StackNavigator } from "react-navigation";
-import Splash from "./Splash";
-// import Master from "./contents/Master.json";
+import { ipConfig } from "../ipconfig"; // server connection local and production
 
 const DeviceWidth = Dimensions.get("window").width;
 
@@ -40,29 +26,26 @@ export default class Exhibits extends Component {
     header: null
   };
 
-  //fetch exhibits list
-  // initialArr = Master.exhibits;
   componentDidMount() {
-    const endpoint = __DEV__ ? 'http://10.10.3.94:8001' : 'https://museumserver.herokuapp.com';
-    fetch(`${endpoint}/exhibits/gallerys`)
+ // data fetch from server 
+    fetch(`${ipConfig}/exhibits/gallerys`)
       .then(res => res.json())
       .then(res => {
         this.setState({
-          gallerysList: res
+          gallerysList: res 
         });
       });
   }
 
-  //construct the exhibits tiles
   renderTiles() {
-    return this.state.gallerysList.map(exhibit => {
-      console.log("exhibit", exhibit);
+    const { gallerysList } = this.state; // list of exhibits
+    return gallerysList.map(exhibit => {
       return (
         <TouchableOpacity
-          key={exhibit._id}
+          key={exhibit._id} // database auto _id
           onPress={() =>
-            this.props.navigation.navigate("subExhibits", {
-              exhibitGallery: exhibit.robotGalleryName
+            this.props.navigation.navigate("subExhibits", { 
+              exhibitGallery: exhibit.robotGalleryName // data pass throw paramater to navigate to subEXhibits component
             })
           }
         >
@@ -88,37 +71,16 @@ export default class Exhibits extends Component {
 
 //component styling
 const styles = StyleSheet.create({
-  // centerText: {
-  //   flex: 1,
-  //   fontSize: 18,
-  //   padding: 32,
-  //   color: '#777',
-  // },
-
-  // textBold: {
-  //   fontWeight: '500',
-  //   color: '#000',
-  // },
-
-  // buttonText: {
-  //   fontSize: 21,
-  //   color: 'rgb(0,122,255)',
-  // },
-
-  // buttonTouchable: {
-  //   padding: 16,
-  // },
-
   container: {
     flex: 1,
-    backgroundColor: "#FFF"
+    // paddingTop: Constants.statusBarHeight,
+    backgroundColor: "#FFF",
   },
 
   containers: {
     flex: 1,
     flexDirection: "row",
     flexWrap: "wrap",
-    //padding:2,
     paddingTop: 5
   },
 

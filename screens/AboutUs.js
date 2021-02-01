@@ -1,12 +1,19 @@
 import React, { Component } from "react";
-import { Text, View, StyleSheet, Span } from "react-native";
+import { Text, View, StyleSheet, AppRegistry } from "react-native";
+import Constants from "expo-constants";
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp
+} from "react-native-responsive-screen";
 
 export default class AboutUs extends Component {
+  static navigationOptions = {
+    header: null
+  };
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.AboutUs}>About Museum</Text>
-        {/* <Text style={styles.text}> */}
+        <Text style={styles.AboutUs}>ABOUT MUSEUM</Text>
           <Text style={styles.text}>
           <Text>{"             "}</Text>
             The prestigious Robotic gallery is an iconic project, first ever of
@@ -17,7 +24,6 @@ export default class AboutUs extends Component {
             epitome of our honourable PM Sh. Narendra Modi’s Digital India
             movement.
           </Text>
-        {/* </Text> */}
       </View>
     );
   }
@@ -26,35 +32,29 @@ export default class AboutUs extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 15,
-    backgroundColor: "#fff",
+    paddingTop: Constants.statusBarHeight,
+    backgroundColor: "white",
     fontSize: 20,
-    backgroundColor: "white"
+    backgroundColor: "white",
   },
   text: {
     flex: 1,
     fontSize: 18,
     textAlign: "justify",
-    margin: 10,
     flexDirection: 'row',
-    // flexWrap: 'nowrap'
-    color: 'black'
+    color: 'black',
+    margin: wp('2%')
   },
   AboutUs: {
+    height: hp('8%'),
+    paddingTop: 1,
     fontWeight: "bold",
     fontSize: 20,
-    // marginTop: 5,
-    // marginHorizontal: 10,
-    backgroundColor: 'black',
-    height: 50,
-    marginTop: -10,
+    backgroundColor: '#ea9a06',
     textAlign: "center",
-    color: "white",
-    padding: 10
+    color: "black",
+    paddingTop: wp('5%'),
   },
-  span: {
-    marginHorizontal: 50
-    // margin: 20,
-    // paddingHorizontal: 10
-  }
 });
+
+AppRegistry.registerComponent("AboutUs", () => AboutUs);

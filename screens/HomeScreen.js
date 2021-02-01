@@ -1,8 +1,6 @@
 import React from "react";
 import { ListItem } from "react-native-elements";
-import { StackNavigator } from "react-navigation";
-import { createStackNavigator } from "react-navigation";
-
+// import Constants from "expo-constants";
 import {
   Alert,
   AppRegistry,
@@ -11,22 +9,11 @@ import {
   Platform,
   ScrollView,
   StyleSheet,
-  FlatList,
-  Text,
-  TouchableOpacity,
   View,
-  TouchableHighlight,
-  TouchableNativeFeedback,
-  TouchableWithoutFeedback
 } from "react-native";
-
-import { WebBrowser } from "expo";
-import { MonoText3 } from "../components/StyledText";
 
 const name1 = "Museum Exhibits";
 const sub1 = "A quick tour around the museum";
-const name2 = "Guided Tour";
-const sub2 = "Guided tour based timeline";
 const name3 = "Show Timings";
 const sub3 = "List of non-guided show times";
 const name4 = "Visit Robseum";
@@ -42,28 +29,7 @@ export default class HomeScreen extends React.Component {
   static navigationOptions = {
     header: null
   };
-  _onPressButton() {
-    Alert.alert("Okay!");
-  }
-  _onVideoButton() {
-    Alert.alert("Video Zone!");
-  }
-  _onTourButton() {
-    Alert.alert("Tour has been started!");
-  }
-  _onShowButton() {
-    Alert.alert("See the Show timings!");
-  }
-  _onVisitButton() {
-    Alert.alert("Welcome to the Roboseum!");
-  }
-  _onAboutButton() {
-    Alert.alert("Get to know about!");
-  }
-  _onHelpButton() {
-    Alert.alert("Important contacts and FAQs!");
-  }
-
+  
   render() {
     //var {navigate} = this.props.navigation;
     return (
@@ -82,23 +48,12 @@ export default class HomeScreen extends React.Component {
           <View style={styles.container}>
             <ListItem
               style={style.customBtnText}
-              onPress={this._onPressButton}
               onPress={() => this.props.navigation.navigate("Exhibits")}
               title={name1}
               subtitle={sub1}
             />
-
-            {/* <ListItem
-              style={style.customBtnText}
-              onPress={this._onPressButton}
-              onPress={() => this.props.navigation.navigate("Tour")}
-              title={name2}
-              subtitle={sub2}
-            /> */}
-
             <ListItem
               style={style.customBtnText}
-              onPress={this._onPressButton}
               onPress={() => this.props.navigation.navigate("Timings")}
               title={name3}
               subtitle={sub3}
@@ -106,7 +61,6 @@ export default class HomeScreen extends React.Component {
 
             <ListItem
               style={style.customBtnText}
-              onPress={this._onPressButton}
               onPress={() => this.props.navigation.navigate("RoundTrip")}
               title={name4}
               subtitle={sub4}
@@ -114,7 +68,6 @@ export default class HomeScreen extends React.Component {
 
             <ListItem
               style={style.customBtnText}
-              onPress={this._onPressButton}
               onPress={() => this.props.navigation.navigate("AboutUs")}
               title={name5}
               subtitle={sub5}
@@ -122,7 +75,6 @@ export default class HomeScreen extends React.Component {
 
             <ListItem
               style={style.customBtnText}
-              onPress={this._onPressButton}
               onPress={() => this.props.navigation.navigate("Help")}
               title={name6}
               subtitle={sub6}
@@ -130,7 +82,6 @@ export default class HomeScreen extends React.Component {
           </View>
           <ListItem
               style={style.customBtnText}
-              onPress={this._onPressButton}
               onPress={() => this.props.navigation.navigate("ScanScreen")}
               title={name7}
               subtitle={sub7}
@@ -158,7 +109,8 @@ AppRegistry.registerComponent("HomeScreen", () => HomeScreen);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFF"
+    // paddingTop: Constants.statusBarHeight,
+    backgroundColor: "#FFF",
   },
   developmentModeText: {
     marginBottom: 20,
@@ -168,7 +120,7 @@ const styles = StyleSheet.create({
     textAlign: "center"
   },
   contentContainer: {
-    paddingTop: 30
+    paddingTop: 30,
   },
   welcomeContainer: {
     marginTop: 20,
