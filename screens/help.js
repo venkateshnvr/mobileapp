@@ -15,7 +15,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
 } from "react-native-responsive-screen";
-import { black } from "ansi-colors";
+import { ipConfig } from "../ipconfig"; // server connection local and production
 
 export default class Help extends Component {
   static navigationOptions = {
@@ -37,10 +37,7 @@ export default class Help extends Component {
       this.state.message !== "" &&
       this.state.email !== ""
     ) {
-      const endpoint = __DEV__
-        ? "http://10.10.3.94:8001"
-        : "https://museumserver.herokuapp.com";
-      fetch(`${endpoint}/feedback/post`, {
+      fetch(`${ipConfig}/feedback/post`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -116,7 +113,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "white",
-    paddingTop: Constants.statusBarHeight,
+    paddingTop: Constants.statusBarHeight
     // margin: wp('1%')
   },
   input: {
@@ -129,9 +126,9 @@ const styles = StyleSheet.create({
     // borderEndWidth: 1,
     borderColor: "black",
     borderRadius: 10,
-    margin: wp('1%'),
+    margin: wp("1%"),
     // marginHorizontal: 2,
-    marginRight:2,
+    marginRight: 2,
     // marginTop: 5,
     fontSize: 18
   },
@@ -158,7 +155,7 @@ const styles = StyleSheet.create({
     // borderBottomWidth: 1,
     // paddingTop: 1
     marginTop: 5,
-    margin: wp('1%'),
+    margin: wp("1%"),
     textAlignVertical: "top"
   },
   button: {
@@ -176,16 +173,16 @@ const styles = StyleSheet.create({
     textAlign: "center"
   },
   contact: {
-    height: hp('8%'),
+    height: hp("8%"),
     fontWeight: "bold",
-    backgroundColor: '#ea9a06',
+    backgroundColor: "#ea9a06",
     fontSize: 20,
-    textAlign: 'center',
+    textAlign: "center",
     // justifyContent: 'center'
     letterSpacing: 2,
     // justifyContent: 'center'
-    paddingTop: wp('5%'),
-    color: 'black'
+    paddingTop: wp("5%"),
+    color: "black"
   }
 });
 

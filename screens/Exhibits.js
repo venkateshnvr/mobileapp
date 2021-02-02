@@ -1,6 +1,6 @@
 "use strict";
 import React, { Component } from "react";
-// import { Constants } from "expo";
+import { Constants } from "expo";
 import {
   Dimensions,
   AppRegistry,
@@ -73,7 +73,7 @@ export default class Exhibits extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // paddingTop: Constants.statusBarHeight,
+    paddingTop: Constants.statusBarHeight,
     backgroundColor: "#FFF",
   },
 

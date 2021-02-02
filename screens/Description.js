@@ -9,6 +9,7 @@ import {
   View
 } from "react-native";
 import { WebView } from "react-native-webview";
+import { ipConfig } from "../ipconfig"; // server connection local and production
 
 export default class Description extends Component {
   constructor(props) {
@@ -24,10 +25,7 @@ export default class Description extends Component {
 
   componentDidMount() {
     let robotName = this.props.navigation.getParam("subExhibitId");
-    const endpoint = __DEV__
-      ? "http://10.10.3.94:8001"
-      : "https://museumserver.herokuapp.com";
-    fetch(`${endpoint}/robots/robot/${robotName}`)
+    fetch(`${ipConfig}/robots/robot/${robotName}`)
       .then(res => res.json())
       .then(res => {
         this.setState({

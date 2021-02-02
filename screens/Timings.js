@@ -41,7 +41,7 @@ export default class Timings extends Component {
       "Friday",
       "Saturday"
     ];
-    let day = daylist[date.getDay()];
+    // let day = daylist[date.getDay()];
     this.state.allDates.map(data => {
       if (data.date === date) {
         let list = [];
@@ -62,8 +62,8 @@ export default class Timings extends Component {
         this.setState({
           HeadTable: ["S.no", "Start", "End", "Availability"],
           DataTable: list,
-          Date: date,
-          day: day,
+          // Date: date,
+          // day: day,
         });
       }
     });
@@ -73,7 +73,7 @@ export default class Timings extends Component {
     // taking the today date and send date  to the server nodejs
     let date = new Date();
     let setdate =
-      date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+      date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate(); // removeing hours
     let daylist = [
       "Sunday",
       "Monday",
@@ -82,7 +82,7 @@ export default class Timings extends Component {
       "Thursday",
       "Friday",
       "Saturday"
-    ];
+    ]; // today day
     let day = daylist[date.getDay()];
     fetch(`${ipConfig}/tabels/tabel`)
       .then(res => res.json())
@@ -124,15 +124,14 @@ export default class Timings extends Component {
   }
   render() {
     const state = this.state;
-    console.log("123456798", state.allDates);
     return (
       <View style={styles.view}>
         <View style={styles.container}>
           {/* {this.state.DataTable.length !== 0 ? ( */}
           <View>
             <View style={styles.viewText}>
-              <Text style={styles.text}>Day: {this.state.day}</Text>
-              <Text style={styles.text}>Date: {this.state.Date}</Text>
+              <Text style={styles.text}>Today Day: {this.state.day}</Text>
+              <Text style={styles.text}>Today Date: {this.state.Date}</Text>
             </View>
 
             <View style={styles.margin}>
@@ -154,13 +153,19 @@ export default class Timings extends Component {
                     marginLeft: 10
                   },
                   dateInput: {
-                    // marginLeft: 36
+                    // marginLeft: 36,
+                    // backgroundColor: "orange"
+                  },
+                  dateTouchBody: {
+                    backgroundColor: "orange"
                   }
                   // ... You can check the source to find the other keys.
                 }}
+                // disabled 
                 onDateChange={date => {
-                  this.selectedDate(date);
+                  this.selectedDate(date); // update the date
                 }}
+                customStyles={{}}
               />
             </View>
             <Table borderStyle={{ borderWidth: 1, borderColor: "black" }}>

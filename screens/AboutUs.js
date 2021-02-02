@@ -7,7 +7,7 @@ import {
 } from "react-native-responsive-screen";
 
 export default class AboutUs extends Component {
-  static navigationOptions = {
+  static navigationOptions = {  // satatus bar back button
     header: null
   };
   render() {

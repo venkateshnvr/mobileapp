@@ -28,7 +28,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.Museum.Museumapp"
+      "bundleIdentifier": "com.Museumapp.Museumapp"
     },
     "android": {
       "package": "com.Museum.Museumapp"
