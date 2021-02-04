@@ -1,6 +1,6 @@
 "use strict";
 import React, { Component } from "react";
-import { Constants } from "expo";
+import Constants from "expo-constants";
 import {
   Dimensions,
   AppRegistry,
@@ -12,8 +12,6 @@ import {
   View
 } from "react-native";
 import { ipConfig } from "../ipconfig"; // server connection local and production
-
-const DeviceWidth = Dimensions.get("window").width;
 
 export default class Exhibits extends Component {
   constructor(props) {

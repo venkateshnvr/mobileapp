@@ -1,16 +1,22 @@
+
 import React, { Component } from "react";
 import { View, Text, StyleSheet, AppRegistry, StatusBar } from "react-native";
 import { Table, Row, Rows } from "react-native-table-component";
 import Constants from "expo-constants";
 import { ipConfig } from "../ipconfig"; // server connection local and production
-import DatePicker from "react-native-datepicker";
+// import DatePicker from "react-native-datepicker";
+// import DatePicker from "react-native-date-picker";
+// import { Picker, DatePicker } from "react-native-wheel-pick";
+var moment = require("moment");
+import { Calendar } from "react-native-calendars";
+
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
 } from "react-native-responsive-screen";
-import { black } from "ansi-colors";
-// import DateTimePicker from '@react-native-community/datetimepicker';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
+const isIos = Platform.OS === "ios";
 export default class Timings extends Component {
   constructor(props) {
     super(props);
@@ -19,7 +25,7 @@ export default class Timings extends Component {
       DataTable: [],
       Date: "",
       day: "",
-      maxDate: "",
+      maxDate: [],
       minDate: "",
       allDates: []
     };
@@ -29,44 +35,50 @@ export default class Timings extends Component {
     header: null
   };
 
-  selectedDate(date) {
+  selectedDate() {
+    console.log(".............", Date);
+    // var DateFormat = moment(date).format("YYYY-MM-DD");
+    // var split = date.split("-");
     // let setdate =
-    //   date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
-    let daylist = [
-      "Sunday",
-      "Monday",
-      "Tuesday",
-      "Wednesday ",
-      "Thursday",
-      "Friday",
-      "Saturday"
-    ];
-    // let day = daylist[date.getDay()];
-    this.state.allDates.map(data => {
-      if (data.date === date) {
-        let list = [];
-        for (let i = 0; i < data.table.length; i++) {
-          // array inside create inside new array example: [[1,2,2],[123,45]]
-          let nextList = [];
-          for (let dataObject in data.table[i]) {
-            nextList.push(data.table[i][dataObject]);
-          }
-          list.push(nextList);
-        }
-        console.log("list",list)
-        // id == index add 1, 2, 3
-        for (let i = 0; i < list.length; i++) {
-          list[i][0] = i + 1;
-        }
+    //   parseInt(split[0]) + "-" + parseInt(split[1]) + "-" + parseInt(split[2]);
+    // let dates = new Date(setdate);
+    // console.log("converString", dates);
+    // // console.log(date);
+    // let daylist = [
+    //   "Sunday",
+    //   "Monday",
+    //   "Tuesday",
+    //   "Wednesday ",
+    //   "Thursday",
+    //   "Friday",
+    //   "Saturday"
+    // ];
+    // // let day = daylist[date.getDay()];
+    // this.state.allDates.map(data => {
+    //   if (data.date === date) {
+    //     let list = [];
+    //     for (let i = 0; i < data.table.length; i++) {
+    //       // array inside create inside new array example: [[1,2,2],[123,45]]
+    //       let nextList = [];
+    //       for (let dataObject in data.table[i]) {
+    //         nextList.push(data.table[i][dataObject]);
+    //       }
+    //       list.push(nextList);
+    //     }
+    //     // console.log("list", list);
+    //     // id == index add 1, 2, 3
+    //     for (let i = 0; i < list.length; i++) {
+    //       list[i][0] = i + 1;
+    //     }
 
-        this.setState({
-          HeadTable: ["S.no", "Start", "End", "Availability"],
-          DataTable: list,
-          // Date: date,
-          // day: day,
-        });
-      }
-    });
+    //     this.setState({
+    //       HeadTable: ["S.no", "Start", "End", "Availability"],
+    //       DataTable: list,
+    //       Date: date,
+    //       day: daylist[0]
+    //     });
+    //   }
+    // });
   }
 
   componentDidMount() {
@@ -112,9 +124,9 @@ export default class Timings extends Component {
         }
 
         this.setState({
-          maxDate: SortMaxMin[0].date,
-          minDate: SortMaxMin[SortMaxMin.length - 1].date,
-          HeadTable: ["S.no", "Start", "End", "Availability"],
+          maxDate: SortMaxMin[0].split("-"),
+          minDate: SortMaxMin[SortMaxMin.length - 1].date.split("-"),
+          HeadTable: ["S.no", "Start", "End", "Timing"],
           DataTable: list,
           Date: setdate,
           day: day,
@@ -124,63 +136,136 @@ export default class Timings extends Component {
   }
   render() {
     const state = this.state;
+    let maxDate0 = 2021
+    console.log('maxDate0', state.maxDate)
+    let maxDate1 = 2
+    let maxDate2 = 1
+    let minDate0 = 2021
+    let minDate1 = 1
+    let minDate2 = 1
+    // let minDate0 = parseInt(state.minDate[0]);
+    // let minDate1 = parseInt(state.minDate[1]);
+    // let minDate2 = parseInt(state.minDate[2]);parseInt(state.maxDate[1]);parseInt(state.maxDate[0]);parseInt(state.maxDate[2]);
+    // let max = new Date(maxDate0, maxDate1, maxDate2)
+    // console.log('max', max)
+    // console.log('maxDate',typeof(parseInt(state.maxDate[0])))
+    // let minDate = new Date(parseInt());
+    console.log("minDate.............", state.maxDate);
+    // let [month, date, year]    = 
+    // console.log('month, date, year', month, date, year)
     return (
       <View style={styles.view}>
         <View style={styles.container}>
-          {/* {this.state.DataTable.length !== 0 ? ( */}
-          <View>
-            <View style={styles.viewText}>
-              <Text style={styles.text}>Today Day: {this.state.day}</Text>
-              <Text style={styles.text}>Today Date: {this.state.Date}</Text>
-            </View>
-
-            <View style={styles.margin}>
-              <DatePicker
-                style={{ width: 200 }}
-                // date={this.state.date}
-                mode="date"
-                placeholder="select date"
-                format="YYYY-M-D"
-                minDate={this.state.minDate}
-                maxDate={this.state.maxDate}
-                confirmBtnText="Confirm"
-                cancelBtnText="Cancel"
-                customStyles={{
-                  dateIcon: {
-                    position: "absolute",
-                    left: 0,
-                    top: 4,
-                    marginLeft: 10
-                  },
-                  dateInput: {
-                    // marginLeft: 36,
-                    // backgroundColor: "orange"
-                  },
-                  dateTouchBody: {
-                    backgroundColor: "orange"
-                  }
-                  // ... You can check the source to find the other keys.
-                }}
-                // disabled 
-                onDateChange={date => {
-                  this.selectedDate(date); // update the date
-                }}
-                customStyles={{}}
-              />
-            </View>
-            <Table borderStyle={{ borderWidth: 1, borderColor: "black" }}>
-              <Row
-                data={state.HeadTable}
-                style={styles.HeadStyle}
-                textStyle={styles.TableText}
-              />
-              <Rows data={state.DataTable} textStyle={styles.TableText} />
-            </Table>
+          <View style={styles.viewText}>
+            <Text style={styles.text}>Day : {state.day}</Text>
+            <Text style={styles.text}>Date : {state.Date}</Text>
           </View>
-          <Text style={styles.noData}>Avalible data till {this.state.maxDate}</Text>
-          {/* // ) : (
-          //   )} */}
+          <View style={styles.margin}>
+            {/* <DatePicker
+              style={{ width: 200 }}
+              mode="date"
+              placeholder="select date"
+              format="YYYY-M-D"
+              minDate={this.state.minDate}
+              maxDate={this.state.maxDate}
+              confirmBtnText="Confirm"
+              cancelBtnText="Cancel"
+              customStyles={{
+                dateIcon: {
+                  position: "absolute",
+                  left: 0,
+                  top: 4,
+                  marginLeft: 10
+                },
+                dateInput: {
+                  // marginLeft: 36
+                  // backgroundColor: "orange"
+                }
+                // ... You can check the source to find the other keys.
+              }}
+              // disabled
+              onDateChange={date => {
+                this.selectedDate(date); // update the date
+              }}
+              androidMode="spinner"
+            /> */}
+            <DateTimePicker
+              // showIcon
+              display="spinner"
+              testID="dateTimePicker"
+              // date={new Date()}
+              value={new Date()}
+              mode="date"
+              is24Hour={true}
+              onChange={
+                date => {
+                  console.log(date);
+                }
+                // this.selectedDate // update the date
+              }
+              // maximumDate={Date.parse(state.maxDate)}
+              // minimumDate={new Date(, 1, 1)}
+              showIcon={true}
+              maximumDate={
+                // new Date(state.maxDate)
+                new Date(
+                  maxDate0,
+                  maxDate1,
+                  maxDate2
+              )
+              }
+              minimumDate={
+                // new Date(state.minDate)
+                new Date(
+                  minDate0,
+                  minDate1,
+                  minDate2
+              )
+              }
+            />
+            {/* <DatePicker 
+            date={new Date()}
+            mode={'date'}
+            onDateChange={date => {
+              this.selectedDate(date); // update the date
+            }}
+            default={'iosClone', 'nativeAndroid'} 
+            is24hourSource="locale"
+            />*/}
+            {/* <DatePicker
+              style={{
+                backgroundColor: "white",
+                height: 215,
+                width: isIos ? 300 : undefined
+              }}
+              // android not support width
+              onDateChange={date => {}}
+              minimumDate={new Date("2000-01-01")}
+              maximumDate={new Date("2050-12-31")}
+            /> */}
+            {/* <Calendar
+              currentMonth={new Date()}
+              maxDate={state.maxDate}
+              minDate={state.minDate}
+              showControls={true} 
+              onDayPress={day => {
+                console.log("selected day", day);
+              }}
+              // hideExtraDays={true}
+            /> */}
+          </View>
+          <Table borderStyle={{ borderWidth: 1, borderColor: "black" }}>
+            <Row
+              data={state.HeadTable}
+              style={styles.HeadStyle}
+              textStyle={styles.TableText}
+            />
+            <Rows data={state.DataTable} textStyle={styles.TableText} />
+          </Table>
         </View>
+        <Text style={styles.noData}>
+          Avalible data till {this.state.maxDate}
+        </Text>
       </View>
     );
   }
@@ -189,16 +274,14 @@ export default class Timings extends Component {
 const styles = StyleSheet.create({
   view: {
     flex: 1,
-    backgroundColor: "#FFF",
     paddingTop: Constants.statusBarHeight
-    // marginTop: Platform.OS == "android" ? 130 : 0
   },
   container: {
     // flex: 1,
     // flexDirection: "row",
     // flexWrap: "wrap",
     // paddingTop: 5
-    // paddingTop: Constants.statusBarHeight
+    paddingTop: Constants.statusBarHeight
   },
   margin: {
     margin: 10,
@@ -209,8 +292,9 @@ const styles = StyleSheet.create({
     height: 50
   },
   TableText: {
+    // flex:1,
     margin: 10,
-    alignItems: "center",
+    textAlign: "center",
     fontSize: 18
   },
   view: {
@@ -219,12 +303,16 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 20,
-    margin: 5
+    // fontWeight: "normal",
+    margin: 5,
+    color: "#fff"
   },
   viewText: {
-    height: hp("10%"),
+    height: hp("8%"),
     flexDirection: "row",
-    paddingTop: Constants.statusBarHeight,
+    backgroundColor: "#ea9a06",
+    justifyContent: "center",
+    alignItems: "center"
   },
   noData: {
     textAlign: "center",

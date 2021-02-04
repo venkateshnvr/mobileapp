@@ -10,6 +10,8 @@ import {
 } from "react-native";
 import { WebView } from "react-native-webview";
 import { ipConfig } from "../ipconfig"; // server connection local and production
+import Constants from "expo-constants";
+
 
 export default class Description extends Component {
   constructor(props) {
@@ -38,8 +40,8 @@ export default class Description extends Component {
 
   render() {
     return (
-      <View style={{ flex: 1 }}>
-        <View style={{ height: 300 }}>
+      <View style={{ flex: 1, paddingTop: Constants.statusBarHeight }}>
+        <View style={{ height: 250 }}>
           <WebView
             style={styles.WebViewContainer}
             javaScriptEnabled={true}
@@ -87,7 +89,7 @@ export default class Description extends Component {
 //styling the component
 const styles = StyleSheet.create({
   WebViewContainer: {
-    marginTop: Platform.OS == "android" ? 30 : 0
+    // marginTop: Platform.OS == "android" ? 0 : 0
   }
 });
 

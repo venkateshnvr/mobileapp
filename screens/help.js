@@ -86,7 +86,7 @@ export default class Help extends Component {
           placeholderTextColor="#000"
           style={styles.message}
           onChangeText={message => this.setState({ message })}
-          placeholder={"How was the world first robot museum.?"}
+          placeholder={"How was the India first robot museum.?"}
           editable
           underlineColorAndroid={"transparent"}
         />

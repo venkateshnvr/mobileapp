@@ -11,6 +11,7 @@ import {
   View,
 } from "react-native";
 import { ipConfig } from "../ipconfig"; // server connection local and production
+import Constants from "expo-constants";
 
 const DeviceWidth = Dimensions.get("window").width;
 
@@ -70,11 +71,14 @@ export default class subExhibits extends Component {
 
 const styles = StyleSheet.create({
   containers: {
-    marginTop: 30
+    flex:1,
+    // marginTop: 30,
+    paddingTop: Constants.statusBarHeight,
   },
 
   container: {
-    display: "flex",
+    // display: "flex",
+    flex: 1,
     flexDirection: "row",
     flexWrap: "wrap"
   },

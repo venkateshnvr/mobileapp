@@ -15,7 +15,6 @@ export default class AboutUs extends Component {
       <View style={styles.container}>
         <Text style={styles.AboutUs}>ABOUT MUSEUM</Text>
           <Text style={styles.text}>
-          <Text>{"             "}</Text>
             The prestigious Robotic gallery is an iconic project, first ever of
             its kind in India. A world class facility to educate the people in
             the field of robotics and provide the young brains a platform to
@@ -43,7 +42,7 @@ const styles = StyleSheet.create({
     textAlign: "justify",
     flexDirection: 'row',
     color: 'black',
-    margin: wp('2%')
+    // margin: wp('2%')
   },
   AboutUs: {
     height: hp('8%'),
